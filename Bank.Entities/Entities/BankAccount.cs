@@ -1,4 +1,6 @@
-﻿namespace Bank.Entities.Entities
+﻿using System;
+
+namespace Bank.Entities.Entities
 {
     public class BankAccount : IBankAccount
     {
@@ -30,19 +32,41 @@
         }
         public BankAccount(string customerName, double balance)
         {
-            customerName = customerName;
-            balance = balance;
+            this.customerName = customerName;
+            this.balance = balance;
         }
 
         // Credito(double amount)
         // Se amount < 0 lançar exception
         // balance += amount
-
+        public double Credit(double amount)
+        {
+            if(amount < 0)
+            {
+                Exception err = new Exception("Amount less than 0");
+                throw err;
+            }
+            return this.balance += amount;
+        }
 
         // Debito(double amount)
         // se amount > balance lançar exception
         // Se amount < 0 lançar exception
         // balance -= amount * 0.025
+        public double Debit(double amount)
+        {
+            if (amount < 0)
+            {
+                Exception err = new Exception("Amount less than 0");
+                throw err;
+            }
+            else if(amount > this.balance)
+            {
+                Exception err = new Exception("Amount Bigger than balance");
+                throw err;
+            }
+            return this.balance -= amount * 1.025;
+        }
 
     }
 }
